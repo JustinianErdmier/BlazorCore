@@ -1,4 +1,8 @@
-using Microsoft.JSInterop;
+// ---------------------------------------------------------------------------------------------------------------------------------
+// Justin Erdmier licenses this file to you under the MIT license.
+// Erdmier.BlazorCore > Erdmier.BlazorCore > ExampleJsInterop.cs
+// Modified: 12 11, 2022
+// ---------------------------------------------------------------------------------------------------------------------------------
 
 namespace Erdmier.BlazorCore;
 
@@ -18,13 +22,6 @@ public class ExampleJsInterop : IAsyncDisposable
         moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Erdmier.BlazorCore/exampleJsInterop.js").AsTask());
     }
 
-    public async ValueTask<string> Prompt(string message)
-    {
-        IJSObjectReference module = await moduleTask.Value;
-
-        return await module.InvokeAsync<string>("showPrompt", message);
-    }
-
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
         if (moduleTask.IsValueCreated)
@@ -32,5 +29,12 @@ public class ExampleJsInterop : IAsyncDisposable
             IJSObjectReference module = await moduleTask.Value;
             await module.DisposeAsync();
         }
+    }
+
+    public async ValueTask<string> Prompt(string message)
+    {
+        IJSObjectReference module = await moduleTask.Value;
+
+        return await module.InvokeAsync<string>("showPrompt", message);
     }
 }

@@ -1,0 +1,17 @@
+﻿@inherits CoreDialogWrapper
+
+<CoreDialog @bind-IsShown="IsDialogShown"
+            OnClose="OnDialogClosed">
+    <h3>Dialog Demo</h3>
+
+    <br />
+
+    <p>This is a dialog.</p>
+
+    <br>
+
+    <button class="btn btn-primary"
+            @onclick="CloseDialog">
+        Close
+    </button>
+</CoreDialog>

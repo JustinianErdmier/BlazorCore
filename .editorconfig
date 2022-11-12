@@ -1,4 +1,3 @@
-
 [*]
 charset = utf-8-bom
 end_of_line = crlf
@@ -50,9 +49,9 @@ dotnet_naming_symbols.private_static_fields_symbols.applicable_kinds = field
 dotnet_naming_symbols.private_static_fields_symbols.required_modifiers = static
 dotnet_naming_symbols.private_static_readonly_symbols.applicable_accessibilities = private
 dotnet_naming_symbols.private_static_readonly_symbols.applicable_kinds = field
-dotnet_naming_symbols.private_static_readonly_symbols.required_modifiers = static,readonly
+dotnet_naming_symbols.private_static_readonly_symbols.required_modifiers = static, readonly
 dotnet_naming_symbols.unity_serialized_field_symbols.applicable_accessibilities = *
-dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds = 
+dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds =
 dotnet_naming_symbols.unity_serialized_field_symbols.resharper_applicable_kinds = unity_serialised_field
 dotnet_naming_symbols.unity_serialized_field_symbols.resharper_required_modifiers = instance
 dotnet_separate_import_directive_groups = true
@@ -66,7 +65,7 @@ dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
-file_header_template = ---------------------------------------------------------------------------------------------------------------------------------\nCopyright (c) Lieberman Technologies, LLC. All rights reserved.\n$SOLUTION$ > $PROJECT$ > {fileName}\nCreated: $CREATED_DAY$ $CREATED_MONTH$, $CREATED_YEAR$\nModified: $CURRENT_DAY$ $CURRENT_MONTH$, $CURRENT_YEAR$\n---------------------------------------------------------------------------------------------------------------------------------
+file_header_template = ---------------------------------------------------------------------------------------------------------------------------------\nCopyright (c) Lieberman Technologies, LLC.All rights reserved.\n$SOLUTION$ > $PROJECT$ > {fileName}\nCreated:$CREATED_DAY$ $CREATED_MONTH$, $CREATED_YEAR$\nModified:$CURRENT_DAY$ $CURRENT_MONTH$, $CURRENT_YEAR$\n---------------------------------------------------------------------------------------------------------------------------------
 
 # ReSharper properties
 resharper_align_linq_query = true
