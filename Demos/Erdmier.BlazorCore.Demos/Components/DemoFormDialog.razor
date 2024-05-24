@@ -4,11 +4,16 @@
             Class="rounded-3"
             OnClose="OnDialogClosed">
     <div class="d-flex flex-column align-items-center p-2">
-        <h3>Dialog Demo</h3>
+        <h3>Dialog Demo w/ Form</h3>
         
         <br />
         
-        <p>This is a dialog.</p>
+        <form method="dialog">
+            <input type="text"
+                   value="This is a form inside a dialog."
+                   readonly />
+            
+        </form>
         
         <br>
         

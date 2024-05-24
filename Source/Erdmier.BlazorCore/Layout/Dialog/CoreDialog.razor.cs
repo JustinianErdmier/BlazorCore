@@ -1,28 +1,34 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------------------
 // Justin Erdmier licenses this file to you under the MIT license.
 // Erdmier.BlazorCore > Erdmier.BlazorCore > CoreDialog.razor.cs
-// Modified: 12 11, 2022
+// Modified: 24 11, 2022
 // ---------------------------------------------------------------------------------------------------------------------------------
 
 namespace Erdmier.BlazorCore.Layout.Dialog;
 
-/// <summary> A component taking advantage of the built-in dialog element. </summary>
+/// <summary> A component taking advantage of the built-in <c> dialog </c> element. </summary>
+/// <remarks>
+///     <para>
+///         <b> Note about subscribing to the <c> close </c> event: </b> <br /> If you are needing to subscribe to the <c> close </c> event, bind to the
+///         <see cref="OnClose" /> parameter. Do not use the <see cref="OnCloseEvent" />; this is for JSInterop only.
+///     </para>
+/// </remarks>
 public partial class CoreDialog : CoreComponentBase
 {
     /// <summary> Represents the reference to a DOM's dialog element which is bound to an <see cref="CoreDialog" /> instance. </summary>
     private ElementReference _element;
-
+    
     /// <summary> Represents the reference to a <see cref="CoreDialog" /> instance which is bound to a DOM's dialog element. </summary>
     private DotNetObjectReference<CoreDialog> _this = null!;
-
+    
     /// <summary> Gets or sets whether the dialog is shown and can be interacted with by the user. </summary>
     [ Parameter ]
     public bool IsShown { get; set; }
-
+    
     /// <summary> Enables two-way binding for <see cref="IsShown" />. </summary>
     [ Parameter ]
     public EventCallback<bool> IsShownChanged { get; set; }
-
+    
     /// <summary> Gets or sets the value which determines whether the dialog is a modal dialog. </summary>
     /// <remarks>
     ///     <para>
@@ -42,25 +48,29 @@ public partial class CoreDialog : CoreComponentBase
     /// <seealso href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element" />
     [ Parameter ]
     public bool IsModal { get; set; }
-
+    
     /// <summary>
     ///     Gets or sets an <see cref="EventCallback{TValue}" /> which returns a <see cref="string" /> when the DOM's
     ///     dialog element is closed.
     /// </summary>
     [ Parameter ]
-    public EventCallback<string> OnClose { get; set; }
-
+    public EventCallback<string?> OnClose { get; set; }
+    
     /// <summary> Gets or sets the Razor markup to be rendered within the <see cref="CoreDialog" />. </summary>
     [ Parameter ]
     public RenderFragment? ChildContent { get; set; }
-
+    
     /// <summary>
-    ///     <b> Note: </b> Do not set a value to this property - <b> it will not be used </b>. The <c> dialog </c>
-    ///     element only uses one attribute and it is set when its <c> show() </c> or <c> close() </c> methods are called.
+    ///     Gets the component's <see cref="CoreComponentBase.Attributes" /> but filters out the <c> tabindex </c> and
+    ///     <c> open </c> attributes.
     /// </summary>
-    /// <inheritdoc />
-    public override Dictionary<string, object>? Attributes { protected get; set; }
-
+    /// <remarks>
+    ///     The <c> dialog </c> element must not contain the <c> tabindex </c> attribute nor should have the
+    ///     <c> open </c> attribute manually set.
+    /// </remarks>
+    private Dictionary<string, object>? DialogAttributes => Attributes?.Where(attr => ! string.Equals(attr.Key, b: "tabindex") && ! string.Equals(attr.Key, b: "open"))
+                                                                      .ToDictionary(attr => attr.Key, attr => attr.Value);
+    
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -70,20 +80,28 @@ public partial class CoreDialog : CoreComponentBase
             _this = DotNetObjectReference.Create(this);
             await JsRuntime.InvokeVoidAsync("initializeDialog", _element, _this);
         }
-
+        
         await ToggleState();
-
+        
         await base.OnAfterRenderAsync(firstRender);
     }
-
+    
     /// <summary> This method is called by the <see cref="IJSRuntime" /> when the <c> dialog </c> element closes. </summary>
     /// <param name="returnValue"> The value returned by the <c> dialog </c> element upon closing. </param>
     /// <remarks>
-    ///     <b> Note: </b> If you are consuming this <see cref="CoreDialog" />, do not try to subscribe/bind to this
-    ///     method. Use the <see cref="OnClose" /> property.
+    ///     <para>
+    ///         <c> dialog </c> elements can be closed by <c> form </c> elements if their <c> method </c> attribute is set
+    ///         to <c> method="dialog" </c>. When a <c> dialog </c> element is closed in this way, the <c> returnValue </c> is
+    ///         set to the value of the <c> value </c> attribute of the <c> button </c> element used to submit the
+    ///         <c> form </c> element.
+    ///     </para>
+    ///     <para>
+    ///         <b> Note: </b> If you are consuming this <see cref="CoreDialog" />, do not try to subscribe/bind to this
+    ///         method. Use the <see cref="OnClose" /> property.
+    ///     </para>
     /// </remarks>
     [ JSInvokable ]
-    public async Task OnCloseEvent(string returnValue)
+    public async Task OnCloseEvent(string? returnValue)
     {
         // If the dialog is shown, then close it and invoke the OnClose event callback.
         if (IsShown)
@@ -91,10 +109,10 @@ public partial class CoreDialog : CoreComponentBase
             IsShown = false;
             await IsShownChanged.InvokeAsync(IsShown);
         }
-
+        
         await OnClose.InvokeAsync(returnValue);
     }
-
+    
     /// <summary>
     ///     Uses the <see cref="IJSRuntime" /> to show or close the <c> dialog </c> element. Determines whether to use
     ///     the <c> show() </c> or <c> showModal() </c> method using the value <see cref="IsModal" />.
@@ -105,17 +123,17 @@ public partial class CoreDialog : CoreComponentBase
         {
             case true when IsModal:
                 await JsRuntime.InvokeVoidAsync("showDialogModal", _element);
-
+                
                 break;
-
+            
             case true:
                 await JsRuntime.InvokeVoidAsync("showDialog", _element);
-
+                
                 break;
-
+            
             case false:
                 await JsRuntime.InvokeVoidAsync("closeDialog", _element);
-
+                
                 break;
         }
     }

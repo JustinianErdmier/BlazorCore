@@ -15,7 +15,7 @@ public abstract class CoreComponentBase : ComponentBase
     /// <summary> Sets the value of the CSS <c> class </c> attribute. </summary>
     [ Parameter ]
     public virtual string? Class { protected get; set; }
-
+    
     /// <summary> Sets the keys and values for additional attributes that will be added to the element. </summary>
     [ Parameter ]
     public virtual Dictionary<string, object>? Attributes { protected get; set; }

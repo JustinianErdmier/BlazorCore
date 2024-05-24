@@ -1,0 +1,43 @@
+﻿@page "/CoreDialogExamples"
+
+<PageTitle>Core Dialog Examples</PageTitle>
+
+<h1>Core Dialog Example</h1>
+
+<h3>Using Core Dialog with the Core Dialog Wrapper</h3>
+
+<p>
+    The Core Dialog component only provides the abstractions for using the default HTML dialog element. As such,
+    it is intended to be consumed in a wrapping component to keep the markup and logic for your dialog
+    separated. However, except where needed, repeating the same logic for every dialog wrapper is not ideal. To help,
+    we provided an abstract Core Dialog Wrapper which you can inherit from to minimize the amount of logic you're
+    repeating.
+</p>
+<p>
+    To get started, create a new component that inherits from the Core Dialog Wrapper. Inside this component, you will
+    consume the Core Dialog component and provide the markup for your dialog. In this example, we've created a component
+    named DemoDialog which inherits from the Core Dialog Wrapper. The DemoDialog component is a simple dialog that just
+    displays a message.
+</p>
+
+<h5>Demo Dialog Status: @DemoDialogStatus</h5>
+
+<button class="btn btn-primary"
+        @onclick="() => IsDemoDialogShown = true">Open Demo Dialog
+</button>
+
+<DemoDialog @bind-IsDialogShown="IsDemoDialogShown"
+            DialogClosed="OnDemoDialogClosed" />
+
+@code {
+    
+    private bool IsDemoDialogShown { get; set; }
+    
+    private string DemoDialogStatus { get; set; } = "Not yet shown";
+    
+    private void OnDemoDialogClosed()
+    {
+        DemoDialogStatus = "Shown and closed";
+    }
+    
+}
