@@ -32,27 +32,21 @@ public partial class CoreDialog : CoreComponentBase
     /// <summary> Gets or sets the value which determines whether the dialog is a modal dialog. </summary>
     /// <remarks>
     ///     <para>
-    ///         This value ultimately determines which <c> show() </c> function is called on the DOM's <c> dialog </c>
-    ///         element. If this value is <c> TRUE </c>, then <c> showModal() </c> is called. Otherwise, <c> show() </c>.
+    ///         This value ultimately determines which <c> show() </c> function is called on the DOM's <c> dialog </c> element. If this value is <c> TRUE </c>, then
+    ///         <c> showModal() </c> is called. Otherwise, <c> show() </c>.
     ///     </para>
     ///     <para>
-    ///         While there are some more nuanced differences between the two, the main difference is that if this value is
-    ///         <c> TRUE </c>, then users will be able to close the dialog using the <c> ESC </c> key.
+    ///         While there are some more nuanced differences between the two, the main difference is that if this value is <c> TRUE </c>, then users will be able
+    ///         to close the dialog using the <c> ESC </c> key.
     ///     </para>
-    ///     <para>
-    ///         To learn more about the <c> dialog </c> element and the differences between setting it as a modal, check the
-    ///         two <i> see also </i> links.
-    ///     </para>
+    ///     <para> To learn more about the <c> dialog </c> element and the differences between setting it as a modal, check the two <i> see also </i> links. </para>
     /// </remarks>
     /// <seealso href="https://developer.mozilla.org/en-US/docs/web/html/element/dialog" />
     /// <seealso href="https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element" />
     [ Parameter ]
     public bool IsModal { get; set; }
     
-    /// <summary>
-    ///     Gets or sets an <see cref="EventCallback{TValue}" /> which returns a <see cref="string" /> when the DOM's
-    ///     dialog element is closed.
-    /// </summary>
+    /// <summary> Gets or sets an <see cref="EventCallback{TValue}" /> which returns a <see cref="string" /> when the DOM's dialog element is closed. </summary>
     [ Parameter ]
     public EventCallback<string?> OnClose { get; set; }
     
@@ -60,14 +54,8 @@ public partial class CoreDialog : CoreComponentBase
     [ Parameter ]
     public RenderFragment? ChildContent { get; set; }
     
-    /// <summary>
-    ///     Gets the component's <see cref="CoreComponentBase.Attributes" /> but filters out the <c> tabindex </c> and
-    ///     <c> open </c> attributes.
-    /// </summary>
-    /// <remarks>
-    ///     The <c> dialog </c> element must not contain the <c> tabindex </c> attribute nor should have the
-    ///     <c> open </c> attribute manually set.
-    /// </remarks>
+    /// <summary> Gets the component's <see cref="CoreComponentBase.Attributes" /> but filters out the <c> tabindex </c> and <c> open </c> attributes. </summary>
+    /// <remarks> The <c> dialog </c> element must not contain the <c> tabindex </c> attribute nor should have the <c> open </c> attribute manually set. </remarks>
     private Dictionary<string, object>? DialogAttributes => Attributes?.Where(attr => ! string.Equals(attr.Key, b: "tabindex") && ! string.Equals(attr.Key, b: "open"))
                                                                       .ToDictionary(attr => attr.Key, attr => attr.Value);
     
@@ -78,7 +66,7 @@ public partial class CoreDialog : CoreComponentBase
         {
             // If this is the first render, then bind this .NET object's reference with the reference to the corresponding DOM's dialog.
             _this = DotNetObjectReference.Create(this);
-            await JsRuntime.InvokeVoidAsync("initializeDialog", _element, _this);
+            await JsRuntime.InvokeVoidAsync(identifier: "initializeDialog", _element, _this);
         }
         
         await ToggleState();
@@ -90,14 +78,13 @@ public partial class CoreDialog : CoreComponentBase
     /// <param name="returnValue"> The value returned by the <c> dialog </c> element upon closing. </param>
     /// <remarks>
     ///     <para>
-    ///         <c> dialog </c> elements can be closed by <c> form </c> elements if their <c> method </c> attribute is set
-    ///         to <c> method="dialog" </c>. When a <c> dialog </c> element is closed in this way, the <c> returnValue </c> is
-    ///         set to the value of the <c> value </c> attribute of the <c> button </c> element used to submit the
-    ///         <c> form </c> element.
+    ///         <c> dialog </c> elements can be closed by <c> form </c> elements if their <c> method </c> attribute is set to <c> method="dialog" </c>. When a
+    ///         <c> dialog </c> element is closed in this way, the <c> returnValue </c> is set to the value of the <c> value </c> attribute of the <c> button </c>
+    ///         element used to submit the <c> form </c> element.
     ///     </para>
     ///     <para>
-    ///         <b> Note: </b> If you are consuming this <see cref="CoreDialog" />, do not try to subscribe/bind to this
-    ///         method. Use the <see cref="OnClose" /> property.
+    ///         <b> Note: </b> If you are consuming this <see cref="CoreDialog" />, do not try to subscribe/bind to this method. Use the <see cref="OnClose" />
+    ///         property.
     ///     </para>
     /// </remarks>
     [ JSInvokable ]
@@ -114,25 +101,25 @@ public partial class CoreDialog : CoreComponentBase
     }
     
     /// <summary>
-    ///     Uses the <see cref="IJSRuntime" /> to show or close the <c> dialog </c> element. Determines whether to use
-    ///     the <c> show() </c> or <c> showModal() </c> method using the value <see cref="IsModal" />.
+    ///     Uses the <see cref="IJSRuntime" /> to show or close the <c> dialog </c> element. Determines whether to use the <c> show() </c> or
+    ///     <c> showModal() </c> method using the value <see cref="IsModal" />.
     /// </summary>
     private async Task ToggleState()
     {
         switch (IsShown)
         {
             case true when IsModal:
-                await JsRuntime.InvokeVoidAsync("showDialogModal", _element);
+                await JsRuntime.InvokeVoidAsync(identifier: "showDialogModal", _element);
                 
                 break;
             
             case true:
-                await JsRuntime.InvokeVoidAsync("showDialog", _element);
+                await JsRuntime.InvokeVoidAsync(identifier: "showDialog", _element);
                 
                 break;
             
             case false:
-                await JsRuntime.InvokeVoidAsync("closeDialog", _element);
+                await JsRuntime.InvokeVoidAsync(identifier: "closeDialog", _element);
                 
                 break;
         }

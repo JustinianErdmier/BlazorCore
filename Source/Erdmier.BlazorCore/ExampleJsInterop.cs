@@ -16,12 +16,13 @@ namespace Erdmier.BlazorCore;
 public class ExampleJsInterop : IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;
-
+    
     public ExampleJsInterop(IJSRuntime jsRuntime)
     {
-        moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Erdmier.BlazorCore/exampleJsInterop.js").AsTask());
+        moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(identifier: "import", "./_content/Erdmier.BlazorCore/exampleJsInterop.js")
+                                                                       .AsTask());
     }
-
+    
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
         if (moduleTask.IsValueCreated)
@@ -30,11 +31,11 @@ public class ExampleJsInterop : IAsyncDisposable
             await module.DisposeAsync();
         }
     }
-
+    
     public async ValueTask<string> Prompt(string message)
     {
         IJSObjectReference module = await moduleTask.Value;
-
-        return await module.InvokeAsync<string>("showPrompt", message);
+        
+        return await module.InvokeAsync<string>(identifier: "showPrompt", message);
     }
 }
