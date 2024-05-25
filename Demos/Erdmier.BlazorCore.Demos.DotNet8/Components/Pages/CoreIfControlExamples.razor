@@ -1,0 +1,36 @@
+﻿@page "/CoreIfControlExamples"
+
+<CoreIfControl>
+    <CoreIfStatement Predicate="@(!numbers.Any())">
+        <p>Loading...</p>
+    </CoreIfStatement>
+    <CoreElseIfStatement Predicate="@(numbers.All(n => n % 2 == 0))">
+        <p>All numbers are even...</p>
+    </CoreElseIfStatement>
+    <CoreElseIfStatement Predicate="@(numbers.All(n => n >= 20))">
+        <p>All numbers are greater than 20!</p>
+    </CoreElseIfStatement>
+    <CoreElseStatement>
+        <p>No conditions apply!</p>
+    </CoreElseStatement>
+</CoreIfControl>
+
+<p>Numbers: @string.Join(separator: ",", numbers)</p>
+
+@code {
+
+    List<int> numbers = [];
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Delay(delay: TimeSpan.FromSeconds(value: 10));
+
+        numbers = [2, 4, 10, 15];
+
+        // numbers = [20, 25, 30, 35];
+
+        StateHasChanged();
+    }
+
+}

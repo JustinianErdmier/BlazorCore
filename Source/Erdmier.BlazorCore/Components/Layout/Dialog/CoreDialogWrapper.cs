@@ -4,7 +4,7 @@
 // Modified: 24 11, 2022
 // ---------------------------------------------------------------------------------------------------------------------------------
 
-namespace Erdmier.BlazorCore.Layout.Dialog;
+namespace Erdmier.BlazorCore.Components;
 
 /// <summary> Provides a wrapper for common properties and methods used when consuming a <see cref="CoreDialog" /> component. </summary>
 /// <remarks>
@@ -19,15 +19,15 @@ public abstract class CoreDialogWrapper : ComponentBase
     /// </remarks>
     [ Parameter ]
     public bool IsDialogShown { get; set; }
-    
+
     /// <summary> Enables two-way binding for the <see cref="IsDialogShown" /> property. </summary>
     [ Parameter ]
     public EventCallback<bool> IsDialogShownChanged { get; set; }
-    
+
     /// <summary> Gets or sets the <see cref="EventCallback{TValue}" /> of type nullable string to be invoked when the dialog is closed. </summary>
     [ Parameter ]
     public EventCallback<string?> DialogClosed { get; set; }
-    
+
     /// <summary> Default implementation for closing the <see cref="CoreDialog" />. </summary>
     /// <remarks> If you need more control over the close behavior, you can override this method. </remarks>
     protected virtual async Task CloseDialog()
@@ -35,7 +35,7 @@ public abstract class CoreDialogWrapper : ComponentBase
         IsDialogShown = false;
         await IsDialogShownChanged.InvokeAsync(IsDialogShown);
     }
-    
+
     /// <summary> Default implementation for the <see cref="DialogClosed" /> event. </summary>
     /// <param name="returnValue"> The value, if any, returned by the <c> dialog </c> element upon being closed. </param>
     /// <remarks>

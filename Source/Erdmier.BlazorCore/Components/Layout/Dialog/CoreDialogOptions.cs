@@ -4,7 +4,8 @@
 // Modified: 12 11, 2022
 // ---------------------------------------------------------------------------------------------------------------------------------
 
-namespace Erdmier.BlazorCore.Layout.Dialog;
+namespace Erdmier.BlazorCore.Components;
 
 /// <summary> Options for configuring <see cref="CoreDialog" /> instances. </summary>
-public class CoreDialogOptions { }
+public class CoreDialogOptions
+{ }
