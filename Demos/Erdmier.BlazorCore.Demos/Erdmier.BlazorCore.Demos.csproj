@@ -10,4 +10,9 @@
         <ProjectReference Include="..\..\Source\Erdmier.BlazorCore\Erdmier.BlazorCore.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <AdditionalFiles Include="Components\Dialogs\DemoDialog.razor"/>
+        <AdditionalFiles Include="Components\Dialogs\DemoFormDialog.razor"/>
+    </ItemGroup>
+
 </Project>

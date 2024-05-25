@@ -11,7 +11,7 @@ EndProject
 				EndProject
 				Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{3E2E8027-2BE9-42D6-ABBC-4601A376C922}"
 				EndProject
-				Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erdmier.BlazorCore.Demos.DotNet8", "Demos\Erdmier.BlazorCore.Demos.DotNet8\Erdmier.BlazorCore.Demos.DotNet8.csproj", "{97841B1F-CB00-4A9C-9DA7-267BF8280E27}"
+				Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erdmier.BlazorCore.Demos", "Demos\Erdmier.BlazorCore.Demos\Erdmier.BlazorCore.Demos.csproj", "{1E730B0C-C175-4066-BBC3-AB47A001502F}"
 				EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +23,13 @@ Global
 		{F39FE3CB-1AE5-484B-A0AD-9C36E6428231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F39FE3CB-1AE5-484B-A0AD-9C36E6428231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F39FE3CB-1AE5-484B-A0AD-9C36E6428231}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97841B1F-CB00-4A9C-9DA7-267BF8280E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97841B1F-CB00-4A9C-9DA7-267BF8280E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97841B1F-CB00-4A9C-9DA7-267BF8280E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97841B1F-CB00-4A9C-9DA7-267BF8280E27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E730B0C-C175-4066-BBC3-AB47A001502F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E730B0C-C175-4066-BBC3-AB47A001502F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E730B0C-C175-4066-BBC3-AB47A001502F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E730B0C-C175-4066-BBC3-AB47A001502F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F39FE3CB-1AE5-484B-A0AD-9C36E6428231} = {75471168-23DF-42B1-ACDE-22CD34F06B36}
-		{97841B1F-CB00-4A9C-9DA7-267BF8280E27} = {3E2E8027-2BE9-42D6-ABBC-4601A376C922}
+		{1E730B0C-C175-4066-BBC3-AB47A001502F} = {3E2E8027-2BE9-42D6-ABBC-4601A376C922}
 	EndGlobalSection
 EndGlobal

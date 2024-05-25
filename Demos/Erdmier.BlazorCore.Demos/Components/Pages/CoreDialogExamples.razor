@@ -23,21 +23,22 @@
 <h5>Demo Dialog Status: @DemoDialogStatus</h5>
 
 <button class="btn btn-primary"
-        @onclick="() => IsDemoDialogShown = true">Open Demo Dialog
+        @onclick="() => IsDemoDialogShown = true">
+    Open Demo Dialog
 </button>
 
 <DemoDialog @bind-IsDialogShown="IsDemoDialogShown"
             DialogClosed="OnDemoDialogClosed" />
 
 @code {
-    
+
     private bool IsDemoDialogShown { get; set; }
-    
+
     private string DemoDialogStatus { get; set; } = "Not yet shown";
-    
+
     private void OnDemoDialogClosed()
     {
         DemoDialogStatus = "Shown and closed";
     }
-    
+
 }
