@@ -7,17 +7,17 @@ public partial class CoreElseStatement : ComponentBase, ICoreIfControlStatement
     public RenderFragment? ChildContent { get; set; }
 
     [ CascadingParameter ]
-    public CoreIfControl Wrapper { get; set; } = null!;
+    public CoreIfControl Controller { get; set; } = null!;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        if (Wrapper is null)
+        if (Controller is null)
         {
             throw new CoreElseStatementInstanceRequiresCascadedCoreIfControlInstanceException();
         }
 
-        Wrapper.RegisterControlStatement(controlStatement: this);
+        Controller.RegisterControlStatement(controlStatement: this);
 
         base.OnInitialized();
     }

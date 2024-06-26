@@ -11,15 +11,26 @@ public partial class CoreIfControl : ComponentBase
     private CoreElseStatement? _elseStatement;
 
     /// <summary> The <see cref="CoreIfStatement" /> instance, if registered. </summary>
-    private CoreIfStatement? _ifStatement;
+    private CoreIfStatement _ifStatement = null!;
 
     /// <summary> Gets the <see cref="ICoreIfControlStatement" /> to be rendered. </summary>
-    /// <remarks> Is updated after <see cref="EvaluatePredicates" /> is invoked. </remarks>
+    /// <remarks> Is updated after <see cref="EvaluateBooleanExpressions" /> is invoked. </remarks>
     internal ICoreIfControlStatement? StatementToBeRendered { get; private set; }
 
     /// <summary> Gets or sets the markup to be rendered. </summary>
     [ Parameter ]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (_ifStatement is null)
+        {
+            throw new CoreIfControlRequiresCoreIfStatementException();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
 
     /// <summary> Evaluates the <c> Predicate </c> property for the registered statements. </summary>
     /// <remarks>
@@ -32,14 +43,9 @@ public partial class CoreIfControl : ComponentBase
     ///         registered.
     ///     </para>
     /// </remarks>
-    internal void EvaluatePredicates()
+    internal void EvaluateBooleanExpressions()
     {
-        if (_ifStatement is null)
-        {
-            return;
-        }
-
-        if (_ifStatement.Predicate)
+        if (_ifStatement.BooleanExpressionResult)
         {
             StatementToBeRendered = _ifStatement;
 
@@ -48,7 +54,7 @@ public partial class CoreIfControl : ComponentBase
 
         foreach ((int _, CoreElseIfStatement elseIfStatement) in _elseIfStatements.OrderBy(statement => statement.Key))
         {
-            if (!elseIfStatement.Predicate)
+            if (!elseIfStatement.BooleanExpressionResult)
             {
                 continue;
             }
@@ -104,7 +110,7 @@ public partial class CoreIfControl : ComponentBase
     /// <summary>Registers the given <paramref name="elseIfStatement" /> with the <see cref="CoreIfControl" /> instance.</summary>
     /// <param name="elseIfStatement"> The <see cref="CoreElseIfStatement" /> instance to be registered. </param>
     /// <exception cref="CoreElseIfStatementRequiresCoreIfStatementException"> Throws if the <see cref="CoreIfStatement" /> instance has not already been registered. </exception>
-    /// <exception cref="MultipleCoreElseIfStatementInstancesException">Throws if the <see cref="CoreElseIfStatement" /> instance has already been registered.</exception>
+    /// <exception cref="MultipleCoreElseIfStatementsException">Throws if the <see cref="CoreElseIfStatement" /> instance has already been registered.</exception>
     private void RegisterElseIfStatement(CoreElseIfStatement elseIfStatement)
     {
         if (_ifStatement is null)
@@ -114,7 +120,7 @@ public partial class CoreIfControl : ComponentBase
 
         if (_elseIfStatements.ContainsValue(elseIfStatement))
         {
-            throw new MultipleCoreElseIfStatementInstancesException();
+            throw new MultipleCoreElseIfStatementsException();
         }
 
         int lastIndex = _elseIfStatements.Keys.LastOrDefault();

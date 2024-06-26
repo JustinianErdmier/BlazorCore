@@ -2,42 +2,42 @@
 
 public partial class CoreElseIfStatement : ComponentBase, ICoreIfControlStatement
 {
-    private bool _predicate;
+    private bool _previousBooleanExpressionResult;
 
-    /// <summary> Gets or sets the Razor markup to be conditionally rendered based on the <see cref="Predicate" />. </summary>
+    /// <summary> Gets or sets the Razor markup to be conditionally rendered based on the <see cref="BooleanExpressionResult" />. </summary>
     [ Parameter ]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary> Gets or sets the predicate used to conditionally render the given <see cref="ChildContent" />. </summary>
+    /// <summary> Gets or sets the result of a boolean expression used to conditionally render the given <see cref="ChildContent" />. </summary>
     [ Parameter ]
-    public bool Predicate { get; set; }
+    public bool BooleanExpressionResult { get; set; }
 
     [ CascadingParameter ]
-    public CoreIfControl Wrapper { get; set; } = null!;
+    public CoreIfControl Controller { get; set; } = null!;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        if (Wrapper is null)
+        if (Controller is null)
         {
             throw new CoreElseIfStatementInstanceRequiresCascadedCoreIfControlInstanceException();
         }
 
-        Wrapper.RegisterControlStatement(controlStatement: this);
+        Controller.RegisterControlStatement(controlStatement: this);
 
         base.OnInitialized();
     }
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
-        if (Predicate != _predicate)
+        if (BooleanExpressionResult != _previousBooleanExpressionResult)
         {
-            _predicate = Predicate;
+            _previousBooleanExpressionResult = BooleanExpressionResult;
 
-            Wrapper.EvaluatePredicates();
+            Controller.EvaluateBooleanExpressions();
         }
 
-        await base.OnParametersSetAsync();
+        base.OnParametersSetAsync();
     }
 }

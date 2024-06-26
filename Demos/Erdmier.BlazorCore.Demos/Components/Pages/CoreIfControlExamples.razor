@@ -1,13 +1,13 @@
 ﻿@page "/CoreIfControlExamples"
 
 <CoreIfControl>
-    <CoreIfStatement Predicate="@(!numbers.Any())">
+    <CoreIfStatement BooleanExpressionResult="@(!numbers.Any())">
         <p>Loading...</p>
     </CoreIfStatement>
-    <CoreElseIfStatement Predicate="@(numbers.All(n => n % 2 == 0))">
+    <CoreElseIfStatement BooleanExpressionResult="@(numbers.All(n => n % 2 == 0))">
         <p>All numbers are even...</p>
     </CoreElseIfStatement>
-    <CoreElseIfStatement Predicate="@(numbers.All(n => n >= 20))">
+    <CoreElseIfStatement BooleanExpressionResult="@(numbers.All(n => n >= 20))">
         <p>All numbers are greater than 20!</p>
     </CoreElseIfStatement>
     <CoreElseStatement>
@@ -24,13 +24,16 @@
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Task.Delay(delay: TimeSpan.FromSeconds(value: 10));
+        if (firstRender)
+        {
+            await Task.Delay(delay: TimeSpan.FromSeconds(value: 10));
 
-        numbers = [2, 4, 10, 15];
+            numbers = [20, 22, 24, 26];
 
-        // numbers = [20, 25, 30, 35];
+            // numbers = [20, 25, 30, 35];
 
-        StateHasChanged();
+            StateHasChanged();
+        }
     }
 
 }
